@@ -111,3 +111,17 @@ class 클래스이름:
         self.속성 = 값
 // 속성(attribute)을 만들때는 __init__ 메서드 안에서 self.속성에 값을 할당
 
+----------------------------------------------------------------
+
+# pip 설치하기
+pip는 파이썬 패키지 인덱스의 패키지 관리 명령어이며 Windows용 파이썬에는 기본으로 내장되어 있음.
+리눅스와 macOS에서는 아래와 같이 설치.
+$ curl -0 https://bootstrap.pypa.io/get-pip.py
+$ sudo python3 get-pip.py
+
+* 만약 리눅스에 curl이 설치되어 있지 않다면,
+우분투 : $ sudo apt-get install curl
+CentOS : $ sudo yum install curl
+
+# pip로 패키지 설치하기
+$ pip install 패키지
