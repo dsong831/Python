@@ -1,0 +1,10 @@
+<!-- templates/index.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Piano Tuning Reservation</h1>
+  <p>Welcome to our piano tuning reservation system!</p>
+  <a href="{{ url_for('booking') }}" class="btn btn-primary">Make a Reservation</a>
+</div>
+{% endblock %}
