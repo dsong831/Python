@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sound Road - 피아노 조율 예약 시스템</title>
+    <title>하이 튜닝 센터 - 피아노 조율 예약 시스템</title>
     <style>
         body {
             background-image: url('{{ url_for('static', filename='piano.jpg') }}');
@@ -44,13 +44,31 @@
             font-weight: bold;
             border-radius: 5px;
         }
+        .brand-value {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .brand-value h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .brand-value p {
+            font-size: 24px;
+            max-width: 1000px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Sound Road</h1>
-        <p>Sound Road는 피아노 조율의 최고 전문가들과 함께 최상의 피아노 관리 서비스를 제공합니다. 온라인 예약 시스템을 통해 편리하게 일정을 잡고, 숙련된 조율사의 손길로 피아노의 완벽한 음질을 경험해보세요.</p>
+        <h1>하이 튜닝 센터</h1>
+        <p>하이 튜닝 센터는 피아노 조율의 최고 전문가들과 함께 최상의 피아노 관리 서비스를 제공합니다. 온라인 예약 시스템을 통해 편리하게 일정을 잡고, 숙련된 조율사의 손길로 피아노의 완벽한 음질을 경험해보세요.</p>
         <a href="/reservation" class="btn">지금 예약하기</a>
+        <div class="brand-value">
+            <h2>브랜드 가치</h2>
+            <p>하이 튜닝 센터는 "Harmony Infinity"의 정신을 바탕으로 피아노 음색의 조화와 무한한 가능성을 추구합니다. 저희는 섬세한 조율을 통해 피아노의 잠재력을 끌어내어 연주자가 최고의 연주를 할 수 있도록 돕습니다. 하이 튜닝 센터와 함께 당신의 피아노가 풍부하고 아름다운 하모니를 만들어낼 수 있습니다.</p>
+        </div>
     </div>
 </body>
 </html>
