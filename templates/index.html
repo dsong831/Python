@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>메인 페이지</title>
-  </head>
-  <body>
-    <h1>환영합니다!</h1>
-    <p>이것은 Render에 배포된 Flask 웹 애플리케이션의 메인 페이지입니다.</p>
-    <a href="/about">About 페이지로 이동</a>
-  </body>
-</html>
+<!-- templates/index.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Piano Tuning Reservation</h1>
+    <p>Select a date to make a reservation:</p>
+    <!-- Calendar component will be added here -->
+    <a href="{{ url_for('reservation') }}" class="btn btn-primary">Make Reservation</a>
+{% endblock %}
