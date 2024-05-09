@@ -1,0 +1,39 @@
+<!-- templates/reservation.html -->
+{% extends 'base.html' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block content %}
+    <h1>Make a Reservation</h1>
+    <form method="post" action="{{ url_for('reservation') }}">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="contact">Contact:</label>
+            <input type="text" class="form-control" id="contact" name="contact" required>
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+            <label for="piano_number">Piano Number:</label>
+            <input type="text" class="form-control" id="piano_number" name="piano_number" required>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="has_history" name="has_history">
+            <label class="form-check-label" for="has_history">Previous history</label>
+        </div>
+        <!-- Reservation history will be displayed here if piano number has history -->
+        <div class="form-group">
+            <label for="payment_method">Payment Method:</label>
+            <select class="form-control" id="payment_method" name="payment_method">
+                <option value="prepaid">Prepaid</option>
+                <option value="postpaid">Postpaid</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}
