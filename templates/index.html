@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>피아노 조율 예약 시스템</title>
+    <title>Sound Road - 피아노 조율 예약 시스템</title>
     <style>
         body {
-            background-image: url('static/piano.jpg');
+            background-image: url('{{ url_for('static', filename='piano.jpg') }}');
             background-size: cover;
             background-position: center;
             color: white;
@@ -13,24 +13,25 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 60px;
             background-color: rgba(0, 0, 0, 0.7);
         }
         h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
+            font-size: 48px;
+            margin-bottom: 30px;
         }
         p {
-            font-size: 18px;
+            font-size: 24px;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 15px 30px;
             background-color: #ffcc00;
             color: black;
             text-decoration: none;
+            font-size: 20px;
             font-weight: bold;
             border-radius: 5px;
         }
@@ -38,11 +39,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>피아노 조율 예약 시스템</h1>
+        <h1>Sound Road</h1>
+        <p>Sound Road는 당신의 피아노를 완벽하게 조율하고 관리할 수 있는 최적의 솔루션을 제공해 드립니다. 저희 사이트를 통해 쉽고 빠르게 피아노 조율 예약을 하실 수 있습니다.</p>
         <p>음악의 완성, 피아노의 정교함을 위해 - 저희는 여러분의 피아노가 완벽한 조율을 통해 최고의 성능을 발휘할 수 있도록 전문적인 서비스를 제공합니다. 탁월한 음질의 피아노를 경험하고 싶으시다면, 지금 바로 저희의 예약 시스템을 이용해 주세요.</p>
-        <p>예약 절차 - 저희의 간편한 온라인 예약 시스템을 통해, 몇 번의 클릭만으로 피아노 조율의 전문가와의 만남을 예약하실 수 있습니다. 여러분의 소중한 피아노를 위한 첫걸음을 지금 시작하세요.</p>
-        <a href="/register" class="btn">회원가입</a>
-        <a href="/login" class="btn">로그인</a>
+        <p>전문적인 조율사와 함께 일정을 예약하며, 피아노의 상태를 최상으로 유지하세요. Sound Road와 함께라면, 당신의 피아노는 항상 아름다운 소리를 낼 준비가 되어 있습니다.</p>
+        <a href="/reservation" class="btn">예약하기</a>
     </div>
 </body>
 </html>
