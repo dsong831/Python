@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', image_file='static/piano.jpg')
 
 @app.route('/reservation', methods=['GET', 'POST'])
 def reservation():
