@@ -1,10 +1,11 @@
-<!-- templates/index.html -->
-{% extends 'base.html' %}
-
-{% block content %}
-<div class="container">
-  <h1>Piano Tuning Reservation</h1>
-  <p>Welcome to our piano tuning reservation system!</p>
-  <a href="{{ url_for('booking') }}" class="btn btn-primary">Make a Reservation</a>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>메인 페이지</title>
+  </head>
+  <body>
+    <h1>환영합니다!</h1>
+    <p>이것은 Render에 배포된 Flask 웹 애플리케이션의 메인 페이지입니다.</p>
+    <a href="/about">About 페이지로 이동</a>
+  </body>
+</html>
