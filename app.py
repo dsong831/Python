@@ -3,8 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # CORS 허용 설정
-
+CORS(app)  # CORS 설정 추가
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tuning_center.db'
 db = SQLAlchemy(app)
 
