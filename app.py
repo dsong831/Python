@@ -1,6 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+from models import Customer, Piano, TuningHistory
 
 app = Flask(__name__)
+
+@app.route('/check-history', methods=['POST'])
+def check_history():
+    name = request.form['name']
+    piano_number = request.form['piano_number']
+
+    customer = Customer.query.filter_by(name=name).first()
+    if customer:
+        piano = Piano.query.filter_by(customer=customer, number=piano_number).first()
+        if piano:
+            tuning_history = TuningHistory.query.filter_by(piano=piano).order_by(TuningHistory.date.desc()).all()
+            history_data = []
+            for history in tuning_history:
+                history_data.append({
+                    'date': history.date.strftime('%Y-%m-%d'),
+                    'comment': history.comment
+                })
+            return jsonify(history_data)
+
+    return jsonify([])
 
 @app.route('/')
 def index():
