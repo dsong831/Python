@@ -1,39 +1,101 @@
-<!-- templates/reservation.html -->
-{% extends 'base.html' %}
-
-{% block title %}Reservation{% endblock %}
-
-{% block content %}
-    <h1>Make a Reservation</h1>
-    <form method="post" action="{{ url_for('reservation') }}">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-            <label for="contact">Contact:</label>
-            <input type="text" class="form-control" id="contact" name="contact" required>
-        </div>
-        <div class="form-group">
-            <label for="location">Location:</label>
-            <input type="text" class="form-control" id="location" name="location" required>
-        </div>
-        <div class="form-group">
-            <label for="piano_number">Piano Number:</label>
-            <input type="text" class="form-control" id="piano_number" name="piano_number" required>
-        </div>
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="has_history" name="has_history">
-            <label class="form-check-label" for="has_history">Previous history</label>
-        </div>
-        <!-- Reservation history will be displayed here if piano number has history -->
-        <div class="form-group">
-            <label for="payment_method">Payment Method:</label>
-            <select class="form-control" id="payment_method" name="payment_method">
-                <option value="prepaid">Prepaid</option>
-                <option value="postpaid">Postpaid</option>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>하이 튜닝 센터 - 예약</title>
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="tel"], input[type="number"], select {
+            font-size: 20px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+        }
+        .customer-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .history-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-left: 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ffcc00;
+            color: black;
+            cursor: pointer;
+        }
+        .submit-btn {
+            font-size: 24px;
+            padding: 15px 30px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ffcc00;
+            color: black;
+            cursor: pointer;
+            align-self: center;
+        }
+        .back-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #fff;
+            color: black;
+            cursor: pointer;
+            margin-top: 20px;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>예약하기</h1>
+        <form>
+            <div class="customer-info">
+                <label for="name">이름:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="piano_number">피아노 번호:</label>
+                <input type="number" id="piano_number" name="piano_number" required>
+                <button type="button" class="history-btn">기존 이력 확인</button>
+            </div>
+            <label for="phone">연락처:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <label for="location">장소:</label>
+            <input type="text" id="location" name="location" required>
+            <label for="payment">결제 방식:</label>
+            <select id="payment" name="payment">
+                <option value="prepaid">선불</option>
+                <option value="postpaid">후불</option>
             </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-{% endblock %}
+            <button type="submit" class="submit-btn">예약 요청</button>
+        </form>
+        <button type="button" class="back-btn" onclick="history.back()">뒤로 가기</button>
+    </div>
+</body>
+</html>
