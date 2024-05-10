@@ -46,9 +46,9 @@ form.addEventListener('submit', async (e) => {
         const response = await fetch('/create-reservation', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify(data)
+            body: new URLSearchParams(Object.entries(data)).toString()
         });
 
         if (response.ok) {
