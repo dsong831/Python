@@ -3,7 +3,162 @@
 <head>
     <title>하이 튜닝 센터 - 예약</title>
     <style>
-        /* 기존 페이지 스타일 코드 생략 */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="tel"], input[type="number"], select {
+            font-size: 20px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .submit-btn {
+            font-size: 24px;
+            padding: 15px 30px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            align-self: center;
+        }
+
+        .back-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ccc;
+            color: #333;
+            cursor: pointer;
+            margin-top: 20px;
+            align-self: flex-start;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .description p {
+            margin: 10px 0;
+        }
+
+        .history-check {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-check h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .history-check .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .history-check .input-group label {
+            margin-right: 10px;
+        }
+
+        .history-check .input-group input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .history-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #history-result {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            label {
+                font-size: 18px;
+            }
+
+            input[type="text"], input[type="tel"], input[type="number"], select {
+                font-size: 16px;
+            }
+
+            .submit-btn {
+                font-size: 20px;
+                padding: 12px 24px;
+            }
+
+            .back-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            .history-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 <body>
