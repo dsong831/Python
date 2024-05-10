@@ -50,20 +50,24 @@ def check_history():
             return jsonify(history_data)
     return jsonify([])
 
-@app.route('/reset-history', methods=['POST'])
-def reset_history():
+@app.route('/create-reservation', methods=['POST'])
+def create_reservation():
     name = request.form['name']
+    phone = request.form['phone']
+    location = request.form['location']
+    payment = request.form['payment']
     piano_number = request.form['piano_number']
-    customer = Customer.query.filter_by(name=name).first()
-    if customer:
-        piano = Piano.query.filter_by(customer=customer, number=piano_number).first()
-        if piano:
-            TuningHistory.query.filter_by(piano=piano).delete()
-            db.session.commit()
-            return jsonify({'message': '기존 이력이 초기화되었습니다.'})
-    return jsonify({'message': '해당 고객 또는 피아노를 찾을 수 없습니다.'})
 
-# 데이터베이스 초기화 코드 추가
+    customer = Customer(name=name)
+    db.session.add(customer)
+    db.session.commit()
+
+    piano = Piano(number=piano_number, customer=customer, customer_id=customer.id)
+    db.session.add(piano)
+    db.session.commit()
+
+    return jsonify({'message': '예약이 완료되었습니다.'}), 200
+
 with app.app_context():
     db.create_all()
 
