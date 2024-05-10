@@ -95,7 +95,7 @@
             flex: 1;
             margin-right: 10px;
         }
-        .history-btn {
+        .history-btn, .reset-btn {
             font-size: 18px;
             padding: 10px 20px;
             border-radius: 5px;
@@ -103,6 +103,10 @@
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
+            margin-right: 10px;
+        }
+        #history-result {
+            margin-top: 20px;
         }
 
         @media (max-width: 768px) {
@@ -126,7 +130,7 @@
                 font-size: 14px;
                 padding: 8px 16px;
             }
-            .history-btn {
+            .history-btn, .reset-btn {
                 font-size: 14px;
                 padding: 8px 16px;
             }
@@ -145,7 +149,7 @@
         </div>
         <form>
             <div class="history-check">
-                <h3>기본 정보 확인</h3>
+                <h3>기존 이력 확인</h3>
                 <div class="input-group">
                     <label for="name">이름:</label>
                     <input type="text" id="name" name="name" required>
@@ -154,7 +158,9 @@
                     <label for="piano_number">피아노 번호:</label>
                     <input type="number" id="piano_number" name="piano_number" required>
                 </div>
-                <button type="button" class="history-btn">확인</button>
+                <button type="button" class="history-btn" onclick="checkHistory()">확인</button>
+                <button type="button" class="reset-btn" onclick="resetHistory()">기존 이력 초기화</button>
+                <div id="history-result"></div>
             </div>
             <label for="phone">연락처:</label>
             <input type="tel" id="phone" name="phone" required>
@@ -169,5 +175,7 @@
         </form>
         <button type="button" class="back-btn" onclick="history.back()">뒤로 가기</button>
     </div>
+
+    <script src="{{ url_for('static', filename='js/reservation.js') }}"></script>
 </body>
 </html>
