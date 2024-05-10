@@ -34,6 +34,31 @@ function checkHistory() {
     }
 }
 
+function deleteReservation(reservationId) {
+    fetch('/delete-reservation', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `reservation_id=${encodeURIComponent(reservationId)}`
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('네트워크 응답에 오류가 있습니다.');
+        }
+    })
+    .then(data => {
+        alert(data.message);
+        fetchReservations(); // 목록 갱신
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('예약 삭제에 실패했습니다.');
+    });
+}
+
 const form = document.querySelector('form');
 
 form.addEventListener('submit', async (e) => {

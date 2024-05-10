@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>하이 튜닝 센터 - 관리자</title>
+    <style>
+        /* 기존 스타일 코드 생략 */
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .admin-table th {
+            background-color: #f2f2f2;
+        }
+
+        .admin-table tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>관리자 페이지</h1>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>피아노 번호</th>
+                    <th>연락처</th>
+                    <th>장소</th>
+                    <th>결제 방식</th>
+                    <th>예약 내용</th>
+                    <th>예약 일자</th>
+                </tr>
+            </thead>
+            <tbody id="reservation-list"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchReservations();
+        });
+
+        function fetchReservations() {
+            fetch('/get-reservations')
+                .then(response => response.json())
+                .then(reservations => {
+                    const reservationList = document.getElementById('reservation-list');
+                    reservationList.innerHTML = '';
+
+                    reservations.forEach(reservation => {
+                        const row = document.createElement('tr');
+
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = reservation.name;
+                        row.appendChild(nameCell);
+
+                        const pianoNumberCell = document.createElement('td');
+                        pianoNumberCell.textContent = reservation.piano_number;
+                        row.appendChild(pianoNumberCell);
+
+                        const phoneCell = document.createElement('td');
+                        phoneCell.textContent = reservation.phone;
+                        row.appendChild(phoneCell);
+
+                        const locationCell = document.createElement('td');
+                        locationCell.textContent = reservation.location;
+                        row.appendChild(locationCell);
+
+                        const paymentCell = document.createElement('td');
+                        paymentCell.textContent = reservation.payment;
+                        row.appendChild(paymentCell);
+
+                        const commentCell = document.createElement('td');
+                        commentCell.textContent = reservation.reservation_comment;
+                        row.appendChild(commentCell);
+
+                        const dateCell = document.createElement('td');
+                        dateCell.textContent = reservation.reservation_date;
+                        row.appendChild(dateCell);
+
+                        reservationList.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

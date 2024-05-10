@@ -2,3 +2,4 @@ flask
 gunicorn
 flask-sqlalchemy
 flask-cors
+functools
