@@ -1,22 +1,36 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-from models import Customer, Piano, TuningHistory
+from flask import Flask, render_template, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tuning_center.db'
+db = SQLAlchemy(app)
 
-@app.route('/reset-history', methods=['POST'])
-def reset_history():
-    name = request.form['name']
-    piano_number = request.form['piano_number']
+class Customer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    pianos = db.relationship('Piano', back_populates='customer')
 
-    customer = Customer.query.filter_by(name=name).first()
-    if customer:
-        piano = Piano.query.filter_by(customer=customer, number=piano_number).first()
-        if piano:
-            TuningHistory.query.filter_by(piano=piano).delete()
-            db.session.commit()
-            return jsonify({'message': '기존 이력이 초기화되었습니다.'})
+class Piano(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.String(100), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
+    customer = db.relationship('Customer', back_populates='pianos')
+    tuning_history = db.relationship('TuningHistory', back_populates='piano')
 
-    return jsonify({'message': '해당 고객 또는 피아노를 찾을 수 없습니다
+class TuningHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    comment = db.Column(db.String(200))
+    piano_id = db.Column(db.Integer, db.ForeignKey('piano.id'), nullable=False)
+    piano = db.relationship('Piano', back_populates='tuning_history')
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/reservation')
+def reservation():
+    return render_template('reservation.html')
 
 @app.route('/check-history', methods=['POST'])
 def check_history():
@@ -38,31 +52,20 @@ def check_history():
 
     return jsonify([])
 
-@app.route('/')
-def index():
-    return render_template('index.html', image_file='static/piano.jpg')
+@app.route('/reset-history', methods=['POST'])
+def reset_history():
+    name = request.form['name']
+    piano_number = request.form['piano_number']
 
-@app.route('/reservation', methods=['GET', 'POST'])
-def reservation():
-    if request.method == 'POST':
-        # Process reservation form data
-        name = request.form['name']
-        contact = request.form['contact']
-        location = request.form['location']
-        piano_number = request.form['piano_number']
-        has_history = 'has_history' in request.form
-        payment_method = request.form['payment_method']
-        
-        # TODO: Save reservation data to database
-        
-        return redirect(url_for('reservation_success'))
-    
-    return render_template('reservation.html')
+    customer = Customer.query.filter_by(name=name).first()
+    if customer:
+        piano = Piano.query.filter_by(customer=customer, number=piano_number).first()
+        if piano:
+            TuningHistory.query.filter_by(piano=piano).delete()
+            db.session.commit()
+            return jsonify({'message': '기존 이력이 초기화되었습니다.'})
 
-@app.route('/reservation-success')
-def reservation_success():
-    # TODO: Display reservation confirmation
-    return "Reservation successful!"
+    return jsonify({'message': '해당 고객 또는 피아노를 찾을 수 없습니다.'})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
