@@ -54,7 +54,7 @@ form.addEventListener('submit', async (e) => {
         if (response.ok) {
             const result = await response.json();
             alert(result.message);
-            form.reset(); // 폼 데이터 초기화 추가
+            form.reset();
         } else {
             alert('예약 요청에 실패했습니다.');
         }
