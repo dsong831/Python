@@ -3,6 +3,21 @@ from models import Customer, Piano, TuningHistory
 
 app = Flask(__name__)
 
+@app.route('/reset-history', methods=['POST'])
+def reset_history():
+    name = request.form['name']
+    piano_number = request.form['piano_number']
+
+    customer = Customer.query.filter_by(name=name).first()
+    if customer:
+        piano = Piano.query.filter_by(customer=customer, number=piano_number).first()
+        if piano:
+            TuningHistory.query.filter_by(piano=piano).delete()
+            db.session.commit()
+            return jsonify({'message': '기존 이력이 초기화되었습니다.'})
+
+    return jsonify({'message': '해당 고객 또는 피아노를 찾을 수 없습니다
+
 @app.route('/check-history', methods=['POST'])
 def check_history():
     name = request.form['name']
