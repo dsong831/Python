@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)  # CORS 설정 추가
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tuning_center.db'
 db = SQLAlchemy(app)
 
@@ -59,14 +60,25 @@ def create_reservation():
     location = request.form['location']
     payment = request.form['payment']
     piano_number = request.form['piano_number']
+    reservation_comment = request.form['reservation_comment']
 
-    customer = Customer(name=name)
-    db.session.add(customer)
-    db.session.commit()
+    customer = Customer.query.filter_by(name=name).first()
+    if not customer:
+        customer = Customer(name=name)
+        db.session.add(customer)
+        db.session.commit()
 
-    piano = Piano(number=piano_number, customer=customer, customer_id=customer.id)
-    db.session.add(piano)
-    db.session.commit()
+    piano = Piano.query.filter_by(customer=customer, number=piano_number).first()
+    if not piano:
+        piano = Piano(number=piano_number, customer=customer, customer_id=customer.id)
+        db.session.add(piano)
+        db.session.commit()
+
+    existing_history = TuningHistory.query.filter_by(piano=piano, date=datetime.now().date(), comment=reservation_comment).first()
+    if not existing_history:
+        tuning_history = TuningHistory(date=datetime.now().date(), comment=reservation_comment, piano=piano)
+        db.session.add(tuning_history)
+        db.session.commit()
 
     return jsonify({'message': '예약이 완료되었습니다.'}), 200
 
