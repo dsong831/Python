@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="styles.html">
+  </head>
+  <body>
+    <header>
+      <h1>관리자 페이지</h1>
+    </header>
+    <main>
+      <!-- 관리자 페이지 내용 작성 -->
+      <button onclick="goToPage('index')">메인 페이지로 돌아가기</button>
+    </main>
+
+    <script>
+      function goToPage(page) {
+        google.script.run.withSuccessHandler(function(html) {
+          document.open();
+          document.write(html);
+          document.close();
+        }).include(page);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="styles.html">
+  </head>
+  <body>
+    <header>
+      <h1>Tuning is Art</h1>
+      <h2>튜닝아트 대표 김서원</h2>
+    </header>
+    <main>
+      <nav>
+        <button onclick="goToPage('center')">예술의전당 조율신청</button>
+        <button onclick="goToPage('renewal')">피아노 작업의뢰</button>
+        <button onclick="goToPage('qna')">기타 문의사항</button>
+        <button onclick="goToPage('admin')">관리자 페이지</button>
+      </nav>
+    </main>
+    <footer>
+      <p>연락처) 010-4743-8231</p>
+      <p>Email) ksw3283@naver.com</p>
+    </footer>
+
+    <script>
+      function goToPage(page) {
+        google.script.run.withSuccessHandler(function(html) {
+          document.open();
+          document.write(html);
+          document.close();
+        }).include(page);
+      }
+    </script>
+  </body>
+</html>

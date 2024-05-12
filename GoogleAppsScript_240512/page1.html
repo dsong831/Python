@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <h1>두 번째 페이지</h1>
+    <label for="inputText">텍스트 입력:</label>
+    <input type="text" id="inputText" name="inputText">
+    <button onclick="updateSheet()">구글 시트 업데이트</button>
+    <div id="confirmationMessage"></div>
+    <br><br>
+    <button onclick="goToPage('index')">첫 번째 페이지로 돌아가기</button>
+
+    <script>
+      function goToPage(page) {
+        google.script.run.withSuccessHandler(function(html) {
+          document.open();
+          document.write(html);
+          document.close();
+          document.getElementById("confirmationMessage").innerHTML = "입력이 완료되었습니다!";
+        }).include(page);
+      }
+
+      function updateSheet() {
+        var inputText = document.getElementById("inputText").value;
+        google.script.run.updateGoogleSheet(inputText);
+      }
+    </script>
+  </body>
+</html>

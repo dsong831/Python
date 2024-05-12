@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="styles.html">
+  </head>
+  <body>
+    <header>
+      <h1>기타 문의사항</h1>
+    </header>
+    <main>
+      <form id="inquiryForm">
+        <label for="inquiryContent">문의 내용:</label><br>
+        <textarea id="inquiryContent" name="inquiryContent" rows="10" cols="50" required></textarea><br>
+        <label for="contact">연락처:</label><br>
+        <input type="tel" id="contact" name="contact" required><br>
+        <label for="email">이메일:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <button type="submit">전송</button>
+      </form>
+      <div id="confirmationMessage" class="confirmation-message"></div>
+      <p class="contact-message">검토 후 빠른 시일 내에 친절히 연락 드리겠습니다. 소중한 의견 감사드립니다.</p>
+      <button onclick="goToPage('index')">메인 페이지로 돌아가기</button>
+    </main>
+
+    <script>
+      function goToPage(page) {
+        google.script.run.withSuccessHandler(function(html) {
+          document.open();
+          document.write(html);
+          document.close();
+        }).include(page);
+      }
+
+      document.getElementById("inquiryForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var inquiryContent = document.getElementById("inquiryContent").value;
+        var contact = document.getElementById("contact").value;
+        var email = document.getElementById("email").value;
+        
+        google.script.run.withSuccessHandler(showConfirmation).sendInquiryEmail(inquiryContent, contact, email);
+        document.getElementById("inquiryForm").reset();
+      });
+
+      function showConfirmation() {
+        var confirmationMessage = document.getElementById("confirmationMessage");
+        confirmationMessage.textContent = "문의 내용이 성공적으로 전송되었습니다.";
+        confirmationMessage.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
