@@ -2,14 +2,202 @@
 <html>
   <head>
     <base target="_top">
-    <link rel="stylesheet" href="styles.html">
+    <style>
+      /* 공통 스타일 */
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #333;
+        font-size: 16px;
+      }
+
+      /* 헤더 스타일 */
+      header {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin: 0;
+      }
+
+      h2 {
+        font-size: 22px;
+        margin: 10px 0;
+      }
+
+      /* 내비게이션 스타일 */
+      nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      nav button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      nav button:hover {
+        background-color: #0056b3;
+      }
+
+      /* 메인 컨텐츠 스타일 */
+      main {
+        max-width: 100%;
+        margin: 20px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+      }
+
+      /* 폼 스타일 */
+      form {
+        display: grid;
+        gap: 10px;
+      }
+
+      form label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      form input,
+      form select,
+      form textarea {
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 18px;
+      }
+
+      form input[type="text"],
+      form input[type="tel"],
+      form input[type="email"],
+      form textarea {
+        width: 100%;
+      }
+
+      form button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s;
+      }
+
+      form button:hover {
+        background-color: #0056b3;
+      }
+
+      /* 푸터 스타일 */
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        font-size: 14px;
+        border-top: 1px solid #e9ecef;
+        margin-top: 20px;
+      }
+
+      /* 세금계산서 발행 체크박스 스타일 조정 */
+      form input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+
+      /* 메인 페이지로 돌아가기 버튼 위치 조정 */
+      #backToMainButton {
+        display: block;
+        margin-top: 30px;
+      }
+
+      /* 모바일 화면 스타일 */
+      @media screen and (max-width: 600px) {
+        body {
+          font-size: 14px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        nav button {
+          font-size: 14px;
+          padding: 10px 16px;
+        }
+
+        form label,
+        form input,
+        form select,
+        form textarea {
+          font-size: 16px;
+        }
+
+        form button {
+          font-size: 16px;
+        }
+      }
+
+      /* 관리자 페이지 테이블 스타일 */
+      #companyHistoryTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      #companyHistoryTable th,
+      #companyHistoryTable td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      #companyHistoryTable th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      #companyHistoryTable tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      #companyHistoryTable input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+      }
+    </style>
   </head>
   <body>
     <header>
       <h1>관리자 페이지</h1>
     </header>
     <main>
-      <!-- 관리자 페이지 내용 작성 -->
+      <div id="companyHistoryTable"></div>
       <button onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
 
@@ -21,6 +209,54 @@
           document.close();
         }).include(page);
       }
+
+      function loadCompanyHistory() {
+        google.script.run.withSuccessHandler(function(data) {
+          console.log('받아온 데이터:', data); // 받아온 데이터 확인
+          var tableHTML = '<table>';
+          tableHTML += '<tr><th>날짜</th><th>공연 명</th><th>피아노 번호</th><th>결제 상태</th></tr>';
+          data.forEach(function(row) {
+            tableHTML += '<tr>';
+            tableHTML += '<td><input type="text" value="' + (row[0] || '') + '" onchange="updateCompanyHistory(this, \'' + row[3] + '\', 0)"></td>';
+            tableHTML += '<td><input type="text" value="' + (row[1] || '') + '" onchange="updateCompanyHistory(this, \'' + row[3] + '\', 1)"></td>';
+            tableHTML += '<td><input type="text" value="' + (row[2] || '') + '" onchange="updateCompanyHistory(this, \'' + row[3] + '\', 2)"></td>';
+            tableHTML += '<td><input type="text" value="' + (row[4] || '') + '" onchange="updateCompanyHistory(this, \'' + row[3] + '\', 4)"></td>';
+            tableHTML += '</tr>';
+          });
+          tableHTML += '</table>';
+          document.getElementById('companyHistoryTable').innerHTML = tableHTML;
+        }).getCompanyHistoryData();
+      }
+
+      function loadCompanyHistory() {
+        google.script.run.withSuccessHandler(function(data) {
+          console.log('받아온 데이터:', data);
+
+          if (data && Array.isArray(data)) {
+            var tableHTML = '<table>';
+            tableHTML += '<tr><th>날짜</th><th>공연 명</th><th>피아노 번호</th><th>결제 상태</th></tr>';
+            data.forEach(function(row) {
+              tableHTML += '<tr>';
+              tableHTML += '<td><input type="text" value="' + (row[0] || '') + '" onchange="updateCompanyHistory(' + row[3] + ', 0, this.value)"></td>';
+              tableHTML += '<td><input type="text" value="' + (row[1] || '') + '" onchange="updateCompanyHistory(' + row[3] + ', 1, this.value)"></td>';
+              tableHTML += '<td><input type="text" value="' + (row[2] || '') + '" onchange="updateCompanyHistory(' + row[3] + ', 2, this.value)"></td>';
+              tableHTML += '<td><input type="text" value="' + (row[4] || '') + '" onchange="updateCompanyHistory(' + row[3] + ', 4, this.value)"></td>';
+              tableHTML += '</tr>';
+            });
+            tableHTML += '</table>';
+            document.getElementById('companyHistoryTable').innerHTML = tableHTML;
+          } else {
+            console.error('유효한 데이터가 아닙니다:', data);
+            document.getElementById('companyHistoryTable').innerHTML = '<p>데이터를 불러오는 중 오류가 발생했습니다.</p>';
+          }
+        }).getCompanyHistoryData();
+      }
+
+      function updateCompanyHistory(rowIndex, columnIndex, newValue) {
+        google.script.run.updateCompanyHistoryData(rowIndex, columnIndex, newValue);
+      }
+
+      loadCompanyHistory();
     </script>
   </body>
 </html>

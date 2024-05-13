@@ -2,7 +2,166 @@
 <html>
   <head>
     <base target="_top">
-    <link rel="stylesheet" href="styles.html">
+    <style>
+      /* 공통 스타일 */
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #333;
+        font-size: 16px;
+      }
+
+      /* 헤더 스타일 */
+      header {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin: 0;
+      }
+
+      h2 {
+        font-size: 22px;
+        margin: 10px 0;
+      }
+
+      /* 내비게이션 스타일 */
+      nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      nav button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      nav button:hover {
+        background-color: #0056b3;
+      }
+
+      /* 메인 컨텐츠 스타일 */
+      main {
+        max-width: 100%;
+        margin: 20px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+      }
+
+      /* 폼 스타일 */
+      form {
+        display: grid;
+        gap: 10px;
+      }
+
+      form label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      form input,
+      form select,
+      form textarea {
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 18px;
+      }
+
+      form input[type="text"],
+      form input[type="tel"],
+      form input[type="email"],
+      form textarea {
+        width: 100%;
+      }
+
+      form button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s;
+      }
+
+      form button:hover {
+        background-color: #0056b3;
+      }
+
+      /* 푸터 스타일 */
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        font-size: 14px;
+        border-top: 1px solid #e9ecef;
+        margin-top: 20px;
+      }
+
+      /* 세금계산서 발행 체크박스 스타일 조정 */
+      form input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+
+      /* 메인 페이지로 돌아가기 버튼 위치 조정 */
+      #backToMainButton {
+        display: block;
+        margin-top: 30px;
+      }
+
+      /* 모바일 화면 스타일 */
+      @media screen and (max-width: 600px) {
+        body {
+          font-size: 14px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        nav button {
+          font-size: 14px;
+          padding: 10px 16px;
+        }
+
+        form label,
+        form input,
+        form select,
+        form textarea {
+          font-size: 16px;
+        }
+
+        form button {
+          font-size: 16px;
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -14,6 +173,8 @@
         <input type="text" id="date" name="date" placeholder="YYYY-MM-DD" required><br>
         <label for="concert">공연 명:</label><br>
         <input type="text" id="concert" name="concert" required><br>
+        <label for="pianoNumber">피아노 번호:</label><br>
+        <input type="text" id="pianoNumber" name="pianoNumber" required><br>
         <label for="company">기획사 이름:</label><br>
         <input type="text" id="company" name="company" required>
         <button type="button" onclick="checkHistory()">기존 이력 확인</button><br>
@@ -40,7 +201,7 @@
         <button type="submit">전송</button>
       </form>
       <div id="confirmationMessage" class="confirmation-message"></div>
-      <button onclick="goToPage('index')">메인 페이지로 돌아가기</button>
+      <button id="backToMainButton" onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
 
     <script>
@@ -54,8 +215,9 @@
 
       function checkHistory() {
         var company = document.getElementById("company").value;
-        // 기존 이력 확인 로직 추가
-        alert("기존 이력 확인: " + company);
+        google.script.run.withSuccessHandler(function(result) {
+          alert(result);
+        }).getCompanyHistory(company);
       }
 
       document.getElementById("taxInvoice").addEventListener("change", function() {
@@ -71,6 +233,7 @@
         event.preventDefault();
         var date = document.getElementById("date").value;
         var concert = document.getElementById("concert").value;
+        var pianoNumber = document.getElementById("pianoNumber").value;
         var company = document.getElementById("company").value;
         var contact = document.getElementById("contact").value;
         var paymentMethod = document.getElementById("paymentMethod").value;
@@ -81,7 +244,7 @@
         google.script.run
           .withSuccessHandler(showConfirmation)
           .withFailureHandler(showError)
-          .processTuningForm(date, concert, company, contact, paymentMethod, taxInvoice, issueDate, issueEmail);
+          .processTuningForm(date, concert, pianoNumber, company, contact, paymentMethod, taxInvoice, issueDate, issueEmail);
 
         this.reset();
       });
