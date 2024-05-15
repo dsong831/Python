@@ -1,10 +1,13 @@
-function doGet(e) {
+function doGet() {
   var template = HtmlService.createTemplateFromFile('index');
-  return template.evaluate();
+  return template.evaluate()
+    .setTitle('Tuning is Art')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+  return HtmlService.createTemplateFromFile(filename).evaluate().getContent();
 }
 
 function sendInquiryEmail(inquiryContent, contact, email) {
@@ -44,63 +47,6 @@ function getCompanyHistory(company) {
   });
 
   return result.join('\n');
-}
-
-function getCompanyHistoryData() {
-  try {
-    var ss = SpreadsheetApp.openById('1zAh-qD2YvLnB9swaXI1SXlasKWlchlp8TFB_yLhGmq0');
-    var sheet = ss.getSheetByName('Tuning_Requests');
-    var data = sheet.getDataRange().getValues();
-    console.log('시트 데이터:', data);
-
-    if (data.length === 0) {
-      console.error('시트에 데이터가 없습니다.');
-      return [];
-    }
-
-    var headers = data[0];
-    var dateIndex = headers.indexOf('날짜');
-    var concertIndex = headers.indexOf('공연 명');
-    var pianoIndex = headers.indexOf('피아노 번호');
-    var companyIndex = headers.indexOf('기획사 이름');
-    var statusIndex = headers.indexOf('결제 상태');
-    console.log('열 인덱스:', dateIndex, concertIndex, pianoIndex, companyIndex, statusIndex);
-
-    if (dateIndex === -1 || concertIndex === -1 || pianoIndex === -1 || companyIndex === -1 || statusIndex === -1) {
-      console.error('필요한 열 이름을 찾을 수 없습니다.');
-      return [];
-    }
-
-    var companyData = data.slice(1).map(function(row) {
-      return [
-        row[dateIndex],
-        row[concertIndex],
-        row[pianoIndex],
-        row[companyIndex],
-        row[statusIndex]
-      ];
-    });
-    console.log('추출된 데이터:', companyData);
-
-    return companyData;
-  } catch (error) {
-    console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
-    return [];
-  }
-}
-
-function updateCompanyHistoryData(rowIndex, columnIndex, newValue) {
-  var ss = SpreadsheetApp.openById('1zAh-qD2YvLnB9swaXI1SXlasKWlchlp8TFB_yLhGmq0');
-  var sheet = ss.getSheetByName('Tuning_Requests');
-  var data = sheet.getDataRange().getValues();
-  var headers = data.shift();
-  var companyIndex = headers.indexOf('기획사 이름');
-  var row = data.find(function(row) {
-    return row[companyIndex] === rowIndex;
-  });
-  if (row) {
-    sheet.getRange(data.indexOf(row) + 2, columnIndex + 1).setValue(newValue);
-  }
 }
 
 function processTuningForm(date, concert, pianoNumber, company, contact, paymentMethod, taxInvoice, issueDate, issueEmail) {
