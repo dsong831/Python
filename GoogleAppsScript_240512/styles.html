@@ -11,20 +11,16 @@
 
   /* 헤더 스타일 */
   header {
-    background-color: #fff;
+    background-color: #4a4a4a;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    color: #fff;
   }
 
   h1 {
     font-size: 28px;
     margin: 0;
-  }
-
-  h2 {
-    font-size: 22px;
-    margin: 10px 0;
+    font-weight: bold;
   }
 
   /* 내비게이션 스타일 */
@@ -36,19 +32,21 @@
   }
 
   nav button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #fff;
+    color: #4a4a4a;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     margin: 5px;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   nav button:hover {
-    background-color: #0056b3;
+    background-color: #4a4a4a;
+    color: #fff;
   }
 
   /* 메인 컨텐츠 스타일 */
@@ -89,7 +87,7 @@
   }
 
   form button {
-    background-color: #007bff;
+    background-color: #4a4a4a;
     color: #fff;
     padding: 12px 20px;
     border: none;
@@ -100,34 +98,43 @@
   }
 
   form button:hover {
-    background-color: #0056b3;
+    background-color: #333;
+  }
+
+  /* 메인 페이지로 돌아가기 버튼 스타일 */
+  #backToMainButton {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 20px;
+    background-color: #fff;
+    color: #4a4a4a;
+    border: 2px solid #4a4a4a;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  #backToMainButton:hover {
+    background-color: #4a4a4a;
+    color: #fff;
   }
 
   /* 푸터 스타일 */
   footer {
     text-align: center;
     padding: 20px;
-    background-color: #fff;
+    background-color: #4a4a4a;
     font-size: 14px;
-    border-top: 1px solid #e9ecef;
+    color: #fff;
     margin-top: 20px;
   }
 
-  /* 세금계산서 발행 체크박스 스타일 조정 */
-  form input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    vertical-align: middle;
-    margin-right: 5px;
+  footer p {
+    margin: 5px 0;
   }
 
-  /* 메인 페이지로 돌아가기 버튼 위치 조정 */
-  #backToMainButton {
-    display: block;
-    margin-top: 30px;
-  }
-
-  /* 모바일 화면 스타일 */
+  /* 반응형 디자인 */
   @media screen and (max-width: 600px) {
     body {
       font-size: 14px;
@@ -135,10 +142,6 @@
 
     h1 {
       font-size: 24px;
-    }
-
-    h2 {
-      font-size: 20px;
     }
 
     nav button {
@@ -155,6 +158,11 @@
 
     form button {
       font-size: 16px;
+    }
+
+    #backToMainButton {
+      font-size: 16px;
+      padding: 10px 16px;
     }
   }
 </style>
