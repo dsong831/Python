@@ -5,24 +5,39 @@
     <style>
       <?!= HtmlService.createHtmlOutputFromFile('styles').getContent(); ?>
     </style>
+    <script>
+      window.onload = function() {
+        window.scrollTo(0, 0);
+      };
+    </script>
   </head>
   <body>
     <header>
-      <h1>Tuning is Art</h1>
-      <h2>튜닝아트 대표 김서원</h2>
+      <div class="header-container">
+        <div class="header-content">
+          <h1>최고의 피아노 조율 서비스, 튜닝아트</h1>
+          <p>숙련된 기술과 열정으로 피아노에 생명을 불어넣습니다.</p>
+        </div>
+      </div>
     </header>
     <main>
-      <nav>
-        <button onclick="goToPage('center')">예술의전당 조율신청</button>
-        <button onclick="goToPage('renewal')">피아노 작업의뢰</button>
-        <button onclick="goToPage('qna')">기타 문의사항</button>
-      </nav>
+      <div class="container">
+        <nav>
+          <button onclick="goToPage('center')">
+            <span>예술의전당 조율신청</span>
+          </button>
+          <button onclick="goToPage('renewal')">
+            <span>피아노 작업의뢰</span>
+          </button>
+          <button onclick="goToPage('qna')">
+            <span>기타 문의사항</span>
+          </button>
+        </nav>
+      </div>
     </main>
-    <footer>
-      <p>연락처) 010-4743-8231</p>
-      <p>Email) ksw3283@naver.com</p>
-    </footer>
 
+    <?!= include('common_footer'); ?>
+    
     <script>
       function goToPage(page) {
         google.script.run.withSuccessHandler(function(html) {
