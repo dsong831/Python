@@ -142,67 +142,6 @@
     color: #fff;
   }
 
-  /* 푸터 스타일 */
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #4a4a4a;
-    font-size: 14px;
-    color: #fff;
-    margin-top: 20px;
-  }
-
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
-
-  .boss-info {
-    margin-top: 20px;
-  }
-
-  .boss-info h3 {
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-
-  .contact-info h3,
-  .social-media h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .contact-info p {
-    margin: 5px 0;
-  }
-
-  .social-media ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .social-media li {
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  .social-media a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
-  .social-media a:hover {
-    color: #007bff;
-  }
-
-  .footer-bottom {
-    text-align: center;
-    font-size: 14px;
-  }
-
   /* 반응형 디자인 */
   /* 컨테이너 스타일 */
   .container {
@@ -287,15 +226,76 @@
     }
   }
 
-  button img {
-    width: 50px;
-    height: 50px;
+  /* 푸터 스타일 */
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #4a4a4a;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 20px;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .contact-info h3,
+  .social-media h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info p {
+    margin: 5px 0;
+  }
+
+  .social-media ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .social-media li {
+    display: inline-block;
     margin-right: 10px;
-    background-color: #f1f1f1;
-    background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd),
-                      linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
+  }
+
+  .social-media a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .social-media a:hover {
+    color: #007bff;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .representative {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  /* 모바일 화면에 대한 스타일 */
+  @media screen and (max-width: 600px) {
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .contact-info,
+    .social-media {
+      margin-bottom: 20px;
+      text-align: center;
+    }
   }
 
 </style>
