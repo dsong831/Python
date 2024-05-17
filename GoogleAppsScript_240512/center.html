@@ -5,10 +5,15 @@
     <style>
       <?!= HtmlService.createHtmlOutputFromFile('styles').getContent(); ?>
     </style>
+    <script>
+      window.onload = function() {
+        window.scrollTo(0, 0);
+      };
+    </script>    
   </head>
   <body>
     <header>
-      <h1>예술의전당 인춘아트홀 조율 신청서</h1>
+      <h1>인춘아트홀 조율 신청서</h1>
     </header>
     <main>
       <form id="tuningForm">
@@ -46,6 +51,8 @@
       <div id="confirmationMessage" class="confirmation-message"></div>
       <button id="backToMainButton" onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
+
+    <?!= include('common_footer'); ?>
 
     <script>
       function goToPage(page) {
