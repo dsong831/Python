@@ -5,6 +5,11 @@
     <style>
       <?!= HtmlService.createHtmlOutputFromFile('styles').getContent(); ?>
     </style>
+    <script>
+      window.onload = function() {
+        window.scrollTo(0, 0);
+      };
+    </script>
   </head>
   <body>
     <header>
@@ -15,6 +20,8 @@
       <button id="backToMainButton" onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
 
+    <?!= include('common_footer'); ?>
+    
     <script>
       function goToPage(page) {
         google.script.run.withSuccessHandler(function(html) {
