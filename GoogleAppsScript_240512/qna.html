@@ -5,6 +5,11 @@
     <style>
       <?!= HtmlService.createHtmlOutputFromFile('styles').getContent(); ?>
     </style>
+    <script>
+      window.onload = function() {
+        window.scrollTo(0, 0);
+      };
+    </script>
   </head>
   <body>
     <header>
@@ -21,9 +26,11 @@
         <button type="submit">전송</button>
       </form>
       <div id="confirmationMessage" class="confirmation-message"></div>
-      <p class="contact-message">검토 후 빠른 시일 내에 친절히 연락 드리겠습니다. 소중한 의견 감사드립니다.</p>
+      <p class="contact-message">검토 후 빠른 시일 내에 연락 드리겠습니다. 소중한 의견 감사드립니다.</p>
       <button id="backToMainButton" onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
+
+    <?!= include('common_footer'); ?>
 
     <script>
       function goToPage(page) {
