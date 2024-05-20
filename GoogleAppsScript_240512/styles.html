@@ -299,31 +299,66 @@
   }
 
   /* index 추가 스타일 */
+  .header-container {
+    padding: 20px;
+  }
+  
   .header-content {
-    padding: 40px 20px;
+    padding: 20px;
     text-align: center;
   }
   
   .header-content h1 {
     font-size: 36px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .header-content p {
     font-size: 20px;
   }
   
+  .since-text {
+    font-size: 16px;
+    color: #fff;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .content-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image-container {
+    flex: 1;
+  }
+  
+  #mainImage {
+    max-width: 100%;
+    height: auto;
+  }
+  
   .button-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
-    margin-top: 20px;
   }
   
   .button-container button {
-    width: 100%;
-    max-width: 300px;
     padding: 15px;
     font-size: 18px;
     background-color: #4a4a4a;
@@ -338,6 +373,16 @@
     background-color: #333;
   }
   
+  @media screen and (max-width: 768px) {
+    .content-container {
+      flex-direction: column;
+    }
+    
+    .image-container {
+      margin-bottom: 20px;
+    }
+  }
+  
   @media screen and (max-width: 600px) {
     .header-content h1 {
       font-size: 28px;
@@ -345,6 +390,11 @@
     
     .header-content h1 br {
       display: block;
+    }
+    
+    .since-text {
+      font-size: 14px;
+      margin-top: 10px;
     }
   }
 </style>
