@@ -2,6 +2,7 @@
 <html>
   <head>
     <base target="_top">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     <style>
       <?!= HtmlService.createHtmlOutputFromFile('styles').getContent(); ?>
     </style>
@@ -13,9 +14,12 @@
   </head>
   <body>
     <header>
-      <h1>피아노 작업 의뢰</h1>
+      <h1><i class="fas fa-tools"></i>  피아노 작업의뢰</h1>
     </header>
     <main>
+      <form id="inquiryForm">
+        <label for="inquiryContent">리뉴얼 중 입니다. 곧 찾아뵙겠습니다 ^^</label><br>
+      </form>
       <!-- 피아노 작업 의뢰 폼 작성 -->
       <button id="backToMainButton" onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
