@@ -10,6 +10,14 @@ function include(filename) {
   return HtmlService.createTemplateFromFile(filename).evaluate().getContent();
 }
 
+function getImageUrl() {
+  var imageId = '1Hvx5-_GU1H-k0PA4LKktFskVjfy140nM';
+  var image = DriveApp.getFileById(imageId);
+  var imageBlob = image.getBlob();
+  var imageUrl = 'data:' + imageBlob.getContentType() + ';base64,' + Utilities.base64Encode(imageBlob.getBytes());
+  return imageUrl;
+}
+
 function sendInquiryEmail(inquiryContent, contact, email) {
   var recipient = "dsong831@gmail.com";
   var subject = "기타 문의사항";
