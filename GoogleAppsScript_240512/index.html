@@ -3,40 +3,54 @@
 <head>
   <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
   <style>
     <?!= HtmlService.createHtmlOutputFromFile('styles').getContent(); ?>
   </style>
   <script>
     window.onload = function() {
-      window.scrollTo(0, 0);
+      google.script.run.withSuccessHandler(function(imageUrl) {
+        document.getElementById('mainImage').src = imageUrl;
+      }).getImageUrl();
     };
   </script>
 </head>
 <body>
   <header>
     <div class="header-container">
+      <div class="header-icon">
+        <i class="fas fa-music"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-tools"></i>
+      </div>
       <div class="header-content">
-        <h1>최고의 피아노 조율<br>서비스, 튜닝아트</h1>
+        <h1>최고의 피아노 조율 <span class="highlight">서비스</span>, 튜닝아트</h1>
         <p>숙련된 기술과 열정으로 피아노에 생명을 불어넣습니다.</p>
+        <div class="since-text">since 2005</div>
       </div>
     </div>
   </header>
   <main>
     <div class="container">
-      <div class="button-container">
-        <button onclick="goToPage('center')">
-          <span>예술의전당 조율신청</span>
-        </button>
-        <button onclick="goToPage('renewal')">
-          <span>피아노 작업의뢰</span>
-        </button>
-        <button onclick="goToPage('qna')">
-          <span>기타 문의사항</span>
-        </button>
+      <div class="content-container">
+        <div class="image-container">
+          <img id="mainImage" src="" alt="메인 이미지">
+        </div>
+        <div class="button-container">
+          <button onclick="goToPage('center')">
+            <span>예술의전당 조율신청</span>
+          </button>
+          <button onclick="goToPage('renewal')">
+            <span>피아노 작업의뢰</span>
+          </button>
+          <button onclick="goToPage('qna')">
+            <span>기타 문의사항</span>
+          </button>
+        </div>
       </div>
     </div>
   </main>
-  <?!= include('common_footer'); ?>
+  <?!= include('common\_footer'); ?>
   <script>
     function goToPage(page) {
       google.script.run.withSuccessHandler(function(html) {
@@ -45,7 +59,7 @@
         document.close();
       }).include(page);
     }
-    
+
     function checkPassword() {
       var password = prompt("관리자 암호를 입력하세요:");
       if (password === "190831") {
