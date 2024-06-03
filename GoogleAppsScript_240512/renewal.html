@@ -10,20 +10,122 @@
       window.onload = function() {
         window.scrollTo(0, 0);
       };
+      
+      function toggleReservationForm() {
+        var reservationForm = document.getElementById('reservationForm');
+        reservationForm.style.display = reservationForm.style.display === 'none' ? 'block' : 'none';
+      }
+      
+      function submitReservationForm(event) {
+        event.preventDefault();
+        
+        var name = document.getElementById('name').value;
+        var pianoNumber = document.getElementById('pianoNumber').value;
+        var contact = document.getElementById('contact').value;
+        var location = document.getElementById('location').value;
+        var reservationDetails = document.getElementById('reservationDetails').value;
+        var customerType = document.getElementById('customerType').value;
+        
+        var subject = '피아노 작업 의뢰';
+        var body = '이름: ' + name + '\n' +
+                  '피아노 번호: ' + pianoNumber + '\n' +
+                  '연락처: ' + contact + '\n' +
+                  '장소: ' + location + '\n' +
+                  '예약 내용: ' + reservationDetails + '\n' +
+                  '고객 유형: ' + customerType;
+        
+        google.script.run.withSuccessHandler(function() {
+          alert('예약 정보가 성공적으로 전송되었습니다.');
+          document.getElementById('reservationForm').reset();
+          
+          var resultMessage = document.createElement('p');
+          resultMessage.textContent = '예약 정보가 성공적으로 전송되었습니다.';
+          resultMessage.style.color = 'green';
+          resultMessage.style.fontWeight = 'bold';
+          resultMessage.style.marginTop = '10px';
+          
+          var reservationForm = document.getElementById('reservationForm');
+          reservationForm.appendChild(resultMessage);
+        }).withFailureHandler(function() {
+          alert('예약 정보 전송에 실패했습니다. 다시 시도해주세요.');
+          
+          var resultMessage = document.createElement('p');
+          resultMessage.textContent = '예약 정보 전송에 실패했습니다. 다시 시도해주세요.';
+          resultMessage.style.color = 'red';
+          resultMessage.style.fontWeight = 'bold';
+          resultMessage.style.marginTop = '10px';
+          
+          var reservationForm = document.getElementById('reservationForm');
+          reservationForm.appendChild(resultMessage);
+        }).sendReservationEmail(subject, body);
+      }
     </script>
   </head>
   <body>
     <header>
-      <h1><i class="fas fa-tools"></i>  피아노 작업의뢰</h1>
+      <h1><i class="fas fa-tools"></i> 피아노 작업의뢰</h1>
     </header>
     <main>
-      <form id="inquiryForm">
-        <label for="inquiryContent">리뉴얼 중 입니다. 곧 찾아뵙겠습니다 ^^</label><br>
-      </form>
-      <!-- 피아노 작업 의뢰 폼 작성 -->
+      <div class="service-info">
+        <i class="fas fa-star service-icon"></i>
+        <h3>처음 고객을 위한 토탈 서비스</h3>
+        <p>크리닝 + 조율 + 조정 + 보이싱을 포함한 종합 서비스를 제공합니다.</p>
+        <p>작업 시간: 최소 4시간 이상</p>
+        <p>비용: 70만원</p>
+      </div>
+      
+      <hr>
+      
+      <div class="service-info">
+        <i class="fas fa-redo service-icon"></i>
+        <h3>두 번째 이상 고객을 위한 토탈 서비스</h3>
+        <p>1년 이내 재조율 고객을 위한 종합 서비스를 제공합니다.</p>
+        <p>작업 시간: 최소 2시간 이상</p>
+        <p>비용: 30만원</p>
+      </div>
+      
+      <button class="request-button" onclick="toggleReservationForm()">의뢰하기</button>
+      
+      <div id="reservationForm" class="reservation-form" style="display: none;">
+        <h3>예약 정보 입력</h3>
+        <form onsubmit="submitReservationForm(event)">
+          <label for="name">이름:</label>
+          <input type="text" id="name" name="name" required><br>
+          
+          <label for="pianoNumber">피아노 번호:</label>
+          <input type="text" id="pianoNumber" name="pianoNumber" required><br>
+          
+          <label for="contact">연락처:</label>
+          <input type="tel" id="contact" name="contact" required><br>
+          
+          <label for="location">장소:</label>
+          <input type="text" id="location" name="location" required><br>
+          
+          <label for="reservationDetails">예약 내용:</label>
+          <textarea id="reservationDetails" name="reservationDetails" required></textarea><br>
+          
+          <label for="customerType">고객 유형:</label>
+          <select id="customerType" name="customerType" required>
+            <option value="처음 고객">처음 고객</option>
+            <option value="두 번째 이상 고객">두 번째 이상 고객</option>
+          </select><br>
+          
+          <button type="submit">예약하기</button>
+        </form>
+      </div>
+      
+      <div class="note-info">
+        <h4><i class="fas fa-info-circle"></i> 참고사항</h4>
+        <p>피아노는 그랜드 피아노 기준입니다.</p>
+        <ul>
+          <li><strong>조율</strong> - 각 음 높이를 정확하게 맞추는 작업</li>
+          <li><strong>조정</strong> - 각 건반의 움직임, 손끝에 느껴지는 감각을 각 치수에 맞게 정확히 맞추는 작업</li>
+          <li><strong>보이싱</strong> - 해머를 다스려 소리의 색깔, 음직을 다루는 작업, 특별히 많은 경험과 고도의 노하우가 요구되는 작업</li>
+        </ul>
+      </div>
+      
       <button id="backToMainButton" onclick="goToPage('index')">메인 페이지로 돌아가기</button>
     </main>
-
     <?!= include('common_footer'); ?>
     
     <script>
