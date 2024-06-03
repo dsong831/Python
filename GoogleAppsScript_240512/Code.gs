@@ -10,6 +10,11 @@ function include(filename) {
   return HtmlService.createTemplateFromFile(filename).evaluate().getContent();
 }
 
+function sendReservationEmail(subject, body) {
+  var recipient = 'dsong831@gmail.com';
+  GmailApp.sendEmail(recipient, subject, body);
+}
+
 function getImageUrl() {
   var imageId = '1Hvx5-_GU1H-k0PA4LKktFskVjfy140nM';
   var image = DriveApp.getFileById(imageId);
