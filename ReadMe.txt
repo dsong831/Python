@@ -17,6 +17,24 @@ $ pip install pyinstaller
 $ pyinstaller --onefile file_name.py
 dist 디렉토리 안에 file_name.exe 파일 확인
 
+
+# python multi-file to exe
+$ pyinstaller --onefile --hidden-import pkg_resources.extern main.py
+============================
+<main.spec 수정>
+# ... binaries에는 외부 실행파일
+# ... datas에는 하위 폴더 이름
+a = Analysis(
+    ['main.py'],
+    pathex=[],
+    binaries=[('external_program.exe', '.')],
+    datas=[('utils/*.py', 'utils')],
+    hiddenimports=['pkg_resources.extern'],  # 이 줄을 추가하세요
+# ... (나머지 코드는 그대로 둡니다)
+=============================
+$ pyinstaller main.spec
+
+
 # python script에서 한글 문자를 사용하려면 UTF-8 형식으로 저장해야 함
 # python 코드블록은 공백 4칸 or 탭 을 사용하는게 기본이다.
 # 기본연산
