@@ -1,46 +1,97 @@
 import sys
 import zlib
+import struct
 
-def calculate_crc(data):
+def calculate_crc8(data):
+    crc = 0
+    for byte in data:
+        crc ^= byte
+        for _ in range(8):
+            if crc & 0x80:
+                crc = (crc << 1) ^ 0x07
+            else:
+                crc <<= 1
+    return crc & 0xFF
+
+def calculate_crc16(data):
+    crc = 0xFFFF
+    for byte in data:
+        crc ^= byte << 8
+        for _ in range(8):
+            if crc & 0x8000:
+                crc = (crc << 1) ^ 0x1021
+            else:
+                crc <<= 1
+    return crc & 0xFFFF
+
+def calculate_crc32(data):
     return zlib.crc32(data) & 0xFFFFFFFF
 
-def calculate_checksum(data):
-    return sum(data) & 0xFFFFFFFF
+def calculate_checksum(data, bits):
+    checksum = sum(data) & ((1 << bits) - 1)
+    return checksum
 
 def main():
-    if len(sys.argv) < 3:
-        print("Usage: python script.py <file_path> <crc|checksum> [start_address] [end_address]")
+    if len(sys.argv) < 5:
+        print("Usage: python script.py <file_path> <crc|checksum> <8|16|32> <update_address> [start_address] [end_address]")
         return
 
     file_path = sys.argv[1]
     calculation_type = sys.argv[2].lower()
+    bits = int(sys.argv[3])
+    update_address = int(sys.argv[4], 16)
 
     start_address = 0x10000
     end_address = 0x7FFFFF
 
-    if len(sys.argv) > 3 and sys.argv[3].lower() != 'null':
-        start_address = int(sys.argv[3], 16)
-    if len(sys.argv) > 4 and sys.argv[4].lower() != 'null':
-        end_address = int(sys.argv[4], 16)
+    if len(sys.argv) > 5 and sys.argv[5].lower() != 'null':
+        start_address = int(sys.argv[5], 16)
+    if len(sys.argv) > 6 and sys.argv[6].lower() != 'null':
+        end_address = int(sys.argv[6], 16)
 
     try:
         with open(file_path, 'rb') as file:
-            file.seek(start_address)
-            data = file.read(end_address - start_address + 1)
+            file_content = bytearray(file.read())
+
+        data = file_content[start_address:end_address + 1]
 
         if calculation_type == 'crc':
-            result = calculate_crc(data)
-            print(f"CRC-32: 0x{result:08X}")
+            if bits == 8:
+                result = calculate_crc8(data)
+            elif bits == 16:
+                result = calculate_crc16(data)
+            elif bits == 32:
+                result = calculate_crc32(data)
+            else:
+                raise ValueError("Invalid bit size for CRC. Use 8, 16, or 32.")
+            print(f"CRC-{bits}: 0x{result:0{bits//4}X}")
         elif calculation_type == 'checksum':
-            result = calculate_checksum(data)
-            print(f"Checksum: 0x{result:08X}")
+            result = calculate_checksum(data, bits)
+            print(f"Checksum-{bits}: 0x{result:0{bits//4}X}")
         else:
-            print("Invalid calculation type. Use 'crc' or 'checksum'.")
+            raise ValueError("Invalid calculation type. Use 'crc' or 'checksum'.")
+
+        # Update the file content
+        if bits == 8:
+            struct.pack_into('>B', file_content, update_address, result)
+        elif bits == 16:
+            struct.pack_into('>H', file_content, update_address, result)
+        elif bits == 32:
+            struct.pack_into('>I', file_content, update_address, result)
+
+        # Write the updated content to a new file
+        new_file_path = file_path + '.updated'
+        with open(new_file_path, 'wb') as new_file:
+            new_file.write(file_content)
+
+        print(f"Updated file saved as: {new_file_path}")
 
     except FileNotFoundError:
         print(f"File not found: {file_path}")
     except IOError as e:
-        print(f"Error reading file: {e}")
+        print(f"Error reading/writing file: {e}")
+    except ValueError as e:
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()
