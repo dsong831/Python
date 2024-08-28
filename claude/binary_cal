@@ -1,0 +1,46 @@
+import sys
+import zlib
+
+def calculate_crc(data):
+    return zlib.crc32(data) & 0xFFFFFFFF
+
+def calculate_checksum(data):
+    return sum(data) & 0xFFFFFFFF
+
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: python script.py <file_path> <crc|checksum> [start_address] [end_address]")
+        return
+
+    file_path = sys.argv[1]
+    calculation_type = sys.argv[2].lower()
+
+    start_address = 0x10000
+    end_address = 0x7FFFFF
+
+    if len(sys.argv) > 3 and sys.argv[3].lower() != 'null':
+        start_address = int(sys.argv[3], 16)
+    if len(sys.argv) > 4 and sys.argv[4].lower() != 'null':
+        end_address = int(sys.argv[4], 16)
+
+    try:
+        with open(file_path, 'rb') as file:
+            file.seek(start_address)
+            data = file.read(end_address - start_address + 1)
+
+        if calculation_type == 'crc':
+            result = calculate_crc(data)
+            print(f"CRC-32: 0x{result:08X}")
+        elif calculation_type == 'checksum':
+            result = calculate_checksum(data)
+            print(f"Checksum: 0x{result:08X}")
+        else:
+            print("Invalid calculation type. Use 'crc' or 'checksum'.")
+
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except IOError as e:
+        print(f"Error reading file: {e}")
+
+if __name__ == "__main__":
+    main()
