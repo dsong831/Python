@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Chat - Dark Mode</title>
+    <script>
+      let apiKey = '';
+      let chatHistory = [];
+      
+      function startChat() {
+        apiKey = document.getElementById('apiKey').value;
+        if (!apiKey) {
+          alert('Please enter an API key.');
+          return;
+        }
+        document.getElementById('apiKeyForm').style.display = 'none';
+        document.getElementById('chatInterface').style.display = 'block';
+      }
+      
+      function sendMessage() {
+        var userInput = document.getElementById('userInput').value;
+        if (!userInput.trim()) return;
+        
+        addToChatHistory('You', userInput);
+        document.getElementById('userInput').value = '';
+        
+        google.script.run
+          .withSuccessHandler(function(response) {
+            addToChatHistory('Claude', response);
+          })
+          .withFailureHandler(function(error) {
+            addToChatHistory('Error', error.toString());
+          })
+          .callClaudeApi(apiKey, userInput);
+      }
+      
+      function addToChatHistory(speaker, message) {
+        chatHistory.push({speaker: speaker, message: message});
+        updateChatDisplay();
+      }
+      
+      function updateChatDisplay() {
+        var chatLog = document.getElementById('chatLog');
+        chatLog.innerHTML = chatHistory.map(function(entry) {
+          return `<div class="message ${entry.speaker.toLowerCase()}">
+                    <strong>${entry.speaker}:</strong> 
+                    <pre>${entry.message}</pre>
+                  </div>`;
+        }).join('');
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+    </script>
+    <style>
+      body { 
+        font-family: Arial, sans-serif; 
+        margin: 0; 
+        padding: 20px; 
+        background-color: #1a1a1a; 
+        color: #e0e0e0; 
+      }
+      #chatLog { 
+        height: 400px; 
+        overflow-y: auto; 
+        border: 1px solid #444; 
+        padding: 10px; 
+        margin-bottom: 10px; 
+        background-color: #2a2a2a;
+      }
+      #userInput { 
+        width: 80%; 
+        padding: 8px; 
+        background-color: #333; 
+        color: #e0e0e0; 
+        border: 1px solid #555; 
+      }
+      button { 
+        padding: 8px 15px; 
+        margin-left: 5px; 
+        background-color: #4CAF50; 
+        color: white; 
+        border: none; 
+        cursor: pointer; 
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .message {
+        margin-bottom: 10px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      .you {
+        background-color: #2c3e50;
+      }
+      .claude {
+        background-color: #34495e;
+      }
+      .error {
+        background-color: #c0392b;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin: 0;
+        font-family: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="apiKeyForm">
+      <h2>Enter your API key:</h2>
+      <input type="password" id="apiKey" placeholder="Your API key">
+      <button onclick="startChat()">Start Chat</button>
+    </div>
+    
+    <div id="chatInterface" style="display: none;">
+      <div id="chatLog"></div>
+      <input type="text" id="userInput" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </body>
+</html>
