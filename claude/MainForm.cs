@@ -90,7 +90,7 @@ namespace ClaudeChatApp
         private void AddToChatLog(string speaker, string message)
         {
             txtChatLog.AppendText($"{speaker}:
-{message}
+\n\r{message}\n\r\n\r
 
 ");
             txtChatLog.SelectionStart = txtChatLog.Text.Length;
