@@ -10,6 +10,8 @@ namespace ClaudeChatApp
         private System.Windows.Forms.TextBox txtUserInput;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox txtChatLog;
+        private System.Windows.Forms.Button btnClearSession;
+        private System.Windows.Forms.Button btnReturnToApiKey;
 
         protected override void Dispose(bool disposing)
         {
@@ -29,6 +31,8 @@ namespace ClaudeChatApp
             this.txtUserInput = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.txtChatLog = new System.Windows.Forms.TextBox();
+            this.btnClearSession = new System.Windows.Forms.Button();
+            this.btnReturnToApiKey = new System.Windows.Forms.Button();
             this.panelApiKey.SuspendLayout();
             this.panelChat.SuspendLayout();
             this.SuspendLayout();
@@ -37,23 +41,27 @@ namespace ClaudeChatApp
             // 
             this.panelApiKey.Controls.Add(this.txtApiKey);
             this.panelApiKey.Controls.Add(this.btnStartChat);
-            this.panelApiKey.Location = new System.Drawing.Point(12, 12);
+            this.panelApiKey.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelApiKey.Location = new System.Drawing.Point(0, 0);
             this.panelApiKey.Name = "panelApiKey";
-            this.panelApiKey.Size = new System.Drawing.Size(360, 100);
+            this.panelApiKey.Size = new System.Drawing.Size(384, 461);
             this.panelApiKey.TabIndex = 0;
             // 
             // txtApiKey
             // 
-            this.txtApiKey.Location = new System.Drawing.Point(15, 15);
+            this.txtApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtApiKey.Location = new System.Drawing.Point(42, 200);
             this.txtApiKey.Name = "txtApiKey";
-            this.txtApiKey.Size = new System.Drawing.Size(330, 20);
+            this.txtApiKey.Size = new System.Drawing.Size(300, 20);
             this.txtApiKey.TabIndex = 1;
             // 
             // btnStartChat
             // 
-            this.btnStartChat.Location = new System.Drawing.Point(270, 50);
+            this.btnStartChat.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnStartChat.Location = new System.Drawing.Point(152, 240);
             this.btnStartChat.Name = "btnStartChat";
-            this.btnStartChat.Size = new System.Drawing.Size(75, 23);
+            this.btnStartChat.Size = new System.Drawing.Size(80, 23);
             this.btnStartChat.TabIndex = 0;
             this.btnStartChat.Text = "Start Chat";
             this.btnStartChat.UseVisualStyleBackColor = true;
@@ -64,22 +72,29 @@ namespace ClaudeChatApp
             this.panelChat.Controls.Add(this.txtUserInput);
             this.panelChat.Controls.Add(this.btnSend);
             this.panelChat.Controls.Add(this.txtChatLog);
-            this.panelChat.Location = new System.Drawing.Point(12, 118);
+            this.panelChat.Controls.Add(this.btnClearSession);
+            this.panelChat.Controls.Add(this.btnReturnToApiKey);
+            this.panelChat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelChat.Location = new System.Drawing.Point(0, 0);
             this.panelChat.Name = "panelChat";
-            this.panelChat.Size = new System.Drawing.Size(360, 330);
+            this.panelChat.Size = new System.Drawing.Size(384, 461);
             this.panelChat.TabIndex = 1;
             this.panelChat.Visible = false;
             // 
             // txtUserInput
             // 
-            this.txtUserInput.Location = new System.Drawing.Point(15, 290);
+            this.txtUserInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUserInput.Location = new System.Drawing.Point(12, 400);
             this.txtUserInput.Name = "txtUserInput";
-            this.txtUserInput.Size = new System.Drawing.Size(250, 20);
+            this.txtUserInput.Size = new System.Drawing.Size(279, 20);
             this.txtUserInput.TabIndex = 2;
+            this.txtUserInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserInput_KeyDown);
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(270, 290);
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSend.Location = new System.Drawing.Point(297, 398);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(75, 23);
             this.btnSend.TabIndex = 1;
@@ -89,13 +104,37 @@ namespace ClaudeChatApp
             // 
             // txtChatLog
             // 
-            this.txtChatLog.Location = new System.Drawing.Point(15, 15);
+            this.txtChatLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtChatLog.Location = new System.Drawing.Point(12, 41);
             this.txtChatLog.Multiline = true;
             this.txtChatLog.Name = "txtChatLog";
             this.txtChatLog.ReadOnly = true;
             this.txtChatLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChatLog.Size = new System.Drawing.Size(330, 260);
+            this.txtChatLog.Size = new System.Drawing.Size(360, 351);
             this.txtChatLog.TabIndex = 0;
+            // 
+            // btnClearSession
+            // 
+            this.btnClearSession.Location = new System.Drawing.Point(12, 12);
+            this.btnClearSession.Name = "btnClearSession";
+            this.btnClearSession.Size = new System.Drawing.Size(100, 23);
+            this.btnClearSession.TabIndex = 3;
+            this.btnClearSession.Text = "Clear Session";
+            this.btnClearSession.UseVisualStyleBackColor = true;
+            this.btnClearSession.Click += new System.EventHandler(this.btnClearSession_Click);
+            // 
+            // btnReturnToApiKey
+            // 
+            this.btnReturnToApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReturnToApiKey.Location = new System.Drawing.Point(272, 12);
+            this.btnReturnToApiKey.Name = "btnReturnToApiKey";
+            this.btnReturnToApiKey.Size = new System.Drawing.Size(100, 23);
+            this.btnReturnToApiKey.TabIndex = 4;
+            this.btnReturnToApiKey.Text = "Change API Key";
+            this.btnReturnToApiKey.UseVisualStyleBackColor = true;
+            this.btnReturnToApiKey.Click += new System.EventHandler(this.btnReturnToApiKey_Click);
             // 
             // MainForm
             // 
