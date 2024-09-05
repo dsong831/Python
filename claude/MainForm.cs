@@ -50,6 +50,11 @@ namespace ClaudeChatApp
                 button.FlatStyle = FlatStyle.Flat;
                 button.FlatAppearance.BorderColor = Color.White;
             }
+            else if (control is RichTextBox richTextBox)
+            {
+                richTextBox.BackColor = Color.Black;
+                richTextBox.ForeColor = Color.White;
+            }
 
             foreach (Control childControl in control.Controls)
             {
@@ -124,30 +129,30 @@ namespace ClaudeChatApp
 
         private void AddToChatLog(string speaker, string message, Color backgroundColor)
         {
-            txtChatLog.SelectionStart = txtChatLog.TextLength;
-            txtChatLog.SelectionLength = 0;
+            rtxtChatLog.SelectionStart = rtxtChatLog.TextLength;
+            rtxtChatLog.SelectionLength = 0;
 
-            txtChatLog.SelectionColor = Color.White;
-            txtChatLog.SelectionBackColor = backgroundColor;
-            txtChatLog.AppendText($"{speaker}:
+            rtxtChatLog.SelectionColor = Color.White;
+            rtxtChatLog.SelectionBackColor = backgroundColor;
+            rtxtChatLog.AppendText($"{speaker}:
 {message}
 
 ");
 
-            txtChatLog.SelectionStart = txtChatLog.TextLength;
-            txtChatLog.ScrollToCaret();
+            rtxtChatLog.SelectionStart = rtxtChatLog.TextLength;
+            rtxtChatLog.ScrollToCaret();
         }
 
         private void btnClearSession_Click(object sender, EventArgs e)
         {
             SaveSessionToFile();
-            txtChatLog.Clear();
+            rtxtChatLog.Clear();
         }
 
         private void SaveSessionToFile()
         {
             string fileName = $"ChatSession_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
-            File.WriteAllText(fileName, txtChatLog.Text);
+            File.WriteAllText(fileName, rtxtChatLog.Text);
             MessageBox.Show($"Session saved to {fileName}", "Session Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -165,7 +170,7 @@ namespace ClaudeChatApp
             panelChat.Visible = false;
             panelApiKey.Visible = true;
             txtApiKey.Clear();
-            txtChatLog.Clear();
+            rtxtChatLog.Clear();
         }
     }
 }
