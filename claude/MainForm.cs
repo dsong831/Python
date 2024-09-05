@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
@@ -17,11 +18,13 @@ namespace ClaudeChatApp
 
         private string apiKey;
         private HttpClient httpClient;
+        private List<JObject> messageHistory;
 
         public MainForm()
         {
             InitializeComponent();
             httpClient = new HttpClient();
+            messageHistory = new List<JObject>();
             ApplyDarkTheme();
         }
 
@@ -96,18 +99,22 @@ namespace ClaudeChatApp
 
         private async Task<string> CallClaudeApi(string message)
         {
+            var userMessage = new JObject
+            {
+                ["role"] = "user",
+                ["content"] = message
+            };
+
+            messageHistory.Add(userMessage);
+
+            // 메시지 요약 로직 추가
+            var summarizedMessages = SummarizeMessages(messageHistory);
+
             var payload = new JObject
             {
                 ["model"] = MODEL,
                 ["max_tokens"] = 1000,
-                ["messages"] = new JArray
-                {
-                    new JObject
-                    {
-                        ["role"] = "user",
-                        ["content"] = message
-                    }
-                }
+                ["messages"] = new JArray(summarizedMessages)
             };
 
             var request = new HttpRequestMessage(HttpMethod.Post, API_URL)
@@ -124,7 +131,22 @@ namespace ClaudeChatApp
             var responseBody = await response.Content.ReadAsStringAsync();
             var responseJson = JObject.Parse(responseBody);
 
-            return responseJson["content"][0]["text"].ToString();
+            var botMessage = new JObject
+            {
+                ["role"] = "assistant",
+                ["content"] = responseJson["content"][0]["text"].ToString()
+            };
+
+            messageHistory.Add(botMessage);
+
+            return botMessage["content"].ToString();
+        }
+
+        private List<JObject> SummarizeMessages(List<JObject> messages)
+        {
+            // 메시지 요약 로직 구현
+            // 예: 최근 5개의 메시지만 유지
+            return messages.Skip(Math.Max(0, messages.Count - 5)).ToList();
         }
 
         private void AddToChatLog(string speaker, string message, Color backgroundColor)
@@ -147,6 +169,7 @@ namespace ClaudeChatApp
         {
             SaveSessionToFile();
             rtxtChatLog.Clear();
+            messageHistory.Clear();
         }
 
         private void SaveSessionToFile()
@@ -171,6 +194,7 @@ namespace ClaudeChatApp
             panelApiKey.Visible = true;
             txtApiKey.Clear();
             rtxtChatLog.Clear();
+            messageHistory.Clear();
         }
     }
 }
