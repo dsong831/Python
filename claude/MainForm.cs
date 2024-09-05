@@ -1,4 +1,6 @@
 using System;
+using System.Drawing;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,39 @@ namespace ClaudeChatApp
         {
             InitializeComponent();
             httpClient = new HttpClient();
+            ApplyDarkTheme();
+        }
+
+        private void ApplyDarkTheme()
+        {
+            BackColor = Color.Black;
+            ForeColor = Color.White;
+
+            foreach (Control control in Controls)
+            {
+                ApplyDarkThemeToControl(control);
+            }
+        }
+
+        private void ApplyDarkThemeToControl(Control control)
+        {
+            control.BackColor = Color.Black;
+            control.ForeColor = Color.White;
+
+            if (control is TextBox textBox)
+            {
+                textBox.BorderStyle = BorderStyle.FixedSingle;
+            }
+            else if (control is Button button)
+            {
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderColor = Color.White;
+            }
+
+            foreach (Control childControl in control.Controls)
+            {
+                ApplyDarkThemeToControl(childControl);
+            }
         }
 
         private void btnStartChat_Click(object sender, EventArgs e)
@@ -40,17 +75,17 @@ namespace ClaudeChatApp
             string userMessage = txtUserInput.Text.Trim();
             if (string.IsNullOrEmpty(userMessage)) return;
 
-            AddToChatLog("You", userMessage);
+            AddToChatLog("You", userMessage, Color.LightBlue);
             txtUserInput.Clear();
 
             try
             {
                 string response = await CallClaudeApi(userMessage);
-                AddToChatLog("Claude", response);
+                AddToChatLog("Claude", response, Color.LightGreen);
             }
             catch (Exception ex)
             {
-                AddToChatLog("Error", ex.Message);
+                AddToChatLog("Error", ex.Message, Color.Red);
             }
         }
 
@@ -87,14 +122,50 @@ namespace ClaudeChatApp
             return responseJson["content"][0]["text"].ToString();
         }
 
-        private void AddToChatLog(string speaker, string message)
+        private void AddToChatLog(string speaker, string message, Color backgroundColor)
         {
+            txtChatLog.SelectionStart = txtChatLog.TextLength;
+            txtChatLog.SelectionLength = 0;
+
+            txtChatLog.SelectionColor = Color.White;
+            txtChatLog.SelectionBackColor = backgroundColor;
             txtChatLog.AppendText($"{speaker}:
-\n\r{message}\n\r\n\r
+{message}
 
 ");
-            txtChatLog.SelectionStart = txtChatLog.Text.Length;
+
+            txtChatLog.SelectionStart = txtChatLog.TextLength;
             txtChatLog.ScrollToCaret();
+        }
+
+        private void btnClearSession_Click(object sender, EventArgs e)
+        {
+            SaveSessionToFile();
+            txtChatLog.Clear();
+        }
+
+        private void SaveSessionToFile()
+        {
+            string fileName = $"ChatSession_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            File.WriteAllText(fileName, txtChatLog.Text);
+            MessageBox.Show($"Session saved to {fileName}", "Session Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void txtUserInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                btnSend.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void btnReturnToApiKey_Click(object sender, EventArgs e)
+        {
+            panelChat.Visible = false;
+            panelApiKey.Visible = true;
+            txtApiKey.Clear();
+            txtChatLog.Clear();
         }
     }
 }
