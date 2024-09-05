@@ -9,7 +9,7 @@ namespace ClaudeChatApp
         private System.Windows.Forms.Button btnStartChat;
         private System.Windows.Forms.TextBox txtUserInput;
         private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.TextBox txtChatLog;
+        private System.Windows.Forms.RichTextBox rtxtChatLog;
         private System.Windows.Forms.Button btnClearSession;
         private System.Windows.Forms.Button btnReturnToApiKey;
 
@@ -30,7 +30,7 @@ namespace ClaudeChatApp
             this.btnStartChat = new System.Windows.Forms.Button();
             this.txtUserInput = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
-            this.txtChatLog = new System.Windows.Forms.TextBox();
+            this.rtxtChatLog = new System.Windows.Forms.RichTextBox();
             this.btnClearSession = new System.Windows.Forms.Button();
             this.btnReturnToApiKey = new System.Windows.Forms.Button();
             this.panelApiKey.SuspendLayout();
@@ -71,7 +71,7 @@ namespace ClaudeChatApp
             // 
             this.panelChat.Controls.Add(this.txtUserInput);
             this.panelChat.Controls.Add(this.btnSend);
-            this.panelChat.Controls.Add(this.txtChatLog);
+            this.panelChat.Controls.Add(this.rtxtChatLog);
             this.panelChat.Controls.Add(this.btnClearSession);
             this.panelChat.Controls.Add(this.btnReturnToApiKey);
             this.panelChat.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -102,18 +102,17 @@ namespace ClaudeChatApp
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // txtChatLog
+            // rtxtChatLog
             // 
-            this.txtChatLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.rtxtChatLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtChatLog.Location = new System.Drawing.Point(12, 41);
-            this.txtChatLog.Multiline = true;
-            this.txtChatLog.Name = "txtChatLog";
-            this.txtChatLog.ReadOnly = true;
-            this.txtChatLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChatLog.Size = new System.Drawing.Size(360, 351);
-            this.txtChatLog.TabIndex = 0;
+            this.rtxtChatLog.Location = new System.Drawing.Point(12, 41);
+            this.rtxtChatLog.Name = "rtxtChatLog";
+            this.rtxtChatLog.ReadOnly = true;
+            this.rtxtChatLog.Size = new System.Drawing.Size(360, 351);
+            this.rtxtChatLog.TabIndex = 0;
+            this.rtxtChatLog.Text = "";
             // 
             // btnClearSession
             // 
