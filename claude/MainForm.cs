@@ -180,13 +180,20 @@ namespace ClaudeChatApp
         }
 
         private void txtUserInput_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Tab)
-            {
-                btnSend.Focus();
-                e.Handled = true;
-            }
-        }
+{
+    if (e.KeyCode == Keys.Enter)
+    {
+        btnSend.PerformClick(); // 전송 버튼 클릭 이벤트 호출
+        txtUserInput.Focus(); // 커서를 텍스트 입력 부분으로 복귀
+        e.Handled = true;
+        e.SuppressKeyPress = true; // 엔터키 입력을 텍스트 박스에 추가하지 않음
+    }
+    else if (e.KeyCode == Keys.Tab)
+    {
+        btnSend.Focus();
+        e.Handled = true;
+    }
+}
 
         private void btnReturnToApiKey_Click(object sender, EventArgs e)
         {
