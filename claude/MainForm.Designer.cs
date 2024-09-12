@@ -12,6 +12,7 @@ namespace ClaudeChatApp
         private System.Windows.Forms.RichTextBox rtxtChatLog;
         private System.Windows.Forms.Button btnClearSession;
         private System.Windows.Forms.Button btnReturnToApiKey;
+private System.Windows.Forms.RichTextBox txtUserInput;
 
         protected override void Dispose(bool disposing)
         {
@@ -83,18 +84,21 @@ namespace ClaudeChatApp
             // 
             // txtUserInput
             // 
+            this.txtUserInput = new System.Windows.Forms.RichTextBox();
             this.txtUserInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserInput.Location = new System.Drawing.Point(12, 400);
+            this.txtUserInput.Location = new System.Drawing.Point(12, 370);
             this.txtUserInput.Name = "txtUserInput";
-            this.txtUserInput.Size = new System.Drawing.Size(279, 20);
+            this.txtUserInput.Size = new System.Drawing.Size(279, 80);
             this.txtUserInput.TabIndex = 2;
+            this.txtUserInput.Text = "";
+            this.txtUserInput.AcceptsTab = false;
             this.txtUserInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserInput_KeyDown);
             // 
             // btnSend
             // 
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.Location = new System.Drawing.Point(297, 398);
+            this.btnSend.Location = new System.Drawing.Point(297, 427);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(75, 23);
             this.btnSend.TabIndex = 1;
@@ -110,9 +114,9 @@ namespace ClaudeChatApp
             this.rtxtChatLog.Location = new System.Drawing.Point(12, 41);
             this.rtxtChatLog.Name = "rtxtChatLog";
             this.rtxtChatLog.ReadOnly = true;
-            this.rtxtChatLog.Size = new System.Drawing.Size(360, 351);
+            this.rtxtChatLog.Size = new System.Drawing.Size(360, 323);
             this.rtxtChatLog.TabIndex = 0;
-            this.rtxtChatLog.Text = "";
+            this.rtxtChatLog.Text = ""; 
             // 
             // btnClearSession
             // 
