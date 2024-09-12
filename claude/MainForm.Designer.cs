@@ -7,12 +7,11 @@ namespace ClaudeChatApp
         private System.Windows.Forms.Panel panelChat;
         private System.Windows.Forms.TextBox txtApiKey;
         private System.Windows.Forms.Button btnStartChat;
-        private System.Windows.Forms.TextBox txtUserInput;
+        private System.Windows.Forms.RichTextBox txtUserInput;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.RichTextBox rtxtChatLog;
         private System.Windows.Forms.Button btnClearSession;
         private System.Windows.Forms.Button btnReturnToApiKey;
-private System.Windows.Forms.RichTextBox txtUserInput;
 
         protected override void Dispose(bool disposing)
         {
@@ -29,7 +28,7 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             this.panelChat = new System.Windows.Forms.Panel();
             this.txtApiKey = new System.Windows.Forms.TextBox();
             this.btnStartChat = new System.Windows.Forms.Button();
-            this.txtUserInput = new System.Windows.Forms.TextBox();
+            this.txtUserInput = new System.Windows.Forms.RichTextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.rtxtChatLog = new System.Windows.Forms.RichTextBox();
             this.btnClearSession = new System.Windows.Forms.Button();
@@ -45,14 +44,14 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             this.panelApiKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelApiKey.Location = new System.Drawing.Point(0, 0);
             this.panelApiKey.Name = "panelApiKey";
-            this.panelApiKey.Size = new System.Drawing.Size(384, 461);
+            this.panelApiKey.Size = new System.Drawing.Size(484, 561);
             this.panelApiKey.TabIndex = 0;
             // 
             // txtApiKey
             // 
             this.txtApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtApiKey.Location = new System.Drawing.Point(42, 200);
+            this.txtApiKey.Location = new System.Drawing.Point(92, 250);
             this.txtApiKey.Name = "txtApiKey";
             this.txtApiKey.Size = new System.Drawing.Size(300, 20);
             this.txtApiKey.TabIndex = 1;
@@ -60,7 +59,7 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             // btnStartChat
             // 
             this.btnStartChat.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnStartChat.Location = new System.Drawing.Point(152, 240);
+            this.btnStartChat.Location = new System.Drawing.Point(202, 290);
             this.btnStartChat.Name = "btnStartChat";
             this.btnStartChat.Size = new System.Drawing.Size(80, 23);
             this.btnStartChat.TabIndex = 0;
@@ -78,18 +77,17 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             this.panelChat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelChat.Location = new System.Drawing.Point(0, 0);
             this.panelChat.Name = "panelChat";
-            this.panelChat.Size = new System.Drawing.Size(384, 461);
+            this.panelChat.Size = new System.Drawing.Size(484, 561);
             this.panelChat.TabIndex = 1;
             this.panelChat.Visible = false;
             // 
             // txtUserInput
             // 
-            this.txtUserInput = new System.Windows.Forms.RichTextBox();
             this.txtUserInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserInput.Location = new System.Drawing.Point(12, 370);
+            this.txtUserInput.Location = new System.Drawing.Point(12, 469);
             this.txtUserInput.Name = "txtUserInput";
-            this.txtUserInput.Size = new System.Drawing.Size(279, 80);
+            this.txtUserInput.Size = new System.Drawing.Size(379, 80);
             this.txtUserInput.TabIndex = 2;
             this.txtUserInput.Text = "";
             this.txtUserInput.AcceptsTab = false;
@@ -98,7 +96,7 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             // btnSend
             // 
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.Location = new System.Drawing.Point(297, 427);
+            this.btnSend.Location = new System.Drawing.Point(397, 526);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(75, 23);
             this.btnSend.TabIndex = 1;
@@ -114,9 +112,9 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             this.rtxtChatLog.Location = new System.Drawing.Point(12, 41);
             this.rtxtChatLog.Name = "rtxtChatLog";
             this.rtxtChatLog.ReadOnly = true;
-            this.rtxtChatLog.Size = new System.Drawing.Size(360, 323);
+            this.rtxtChatLog.Size = new System.Drawing.Size(460, 422);
             this.rtxtChatLog.TabIndex = 0;
-            this.rtxtChatLog.Text = ""; 
+            this.rtxtChatLog.Text = "";
             // 
             // btnClearSession
             // 
@@ -131,7 +129,7 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             // btnReturnToApiKey
             // 
             this.btnReturnToApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReturnToApiKey.Location = new System.Drawing.Point(272, 12);
+            this.btnReturnToApiKey.Location = new System.Drawing.Point(372, 12);
             this.btnReturnToApiKey.Name = "btnReturnToApiKey";
             this.btnReturnToApiKey.Size = new System.Drawing.Size(100, 23);
             this.btnReturnToApiKey.TabIndex = 4;
@@ -143,15 +141,15 @@ private System.Windows.Forms.RichTextBox txtUserInput;
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 461);
+            this.ClientSize = new System.Drawing.Size(484, 561);
             this.Controls.Add(this.panelChat);
             this.Controls.Add(this.panelApiKey);
+            this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "MainForm";
             this.Text = "Claude Chat App";
             this.panelApiKey.ResumeLayout(false);
             this.panelApiKey.PerformLayout();
             this.panelChat.ResumeLayout(false);
-            this.panelChat.PerformLayout();
             this.ResumeLayout(false);
         }
     }
