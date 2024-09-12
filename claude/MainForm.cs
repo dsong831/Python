@@ -154,6 +154,13 @@ namespace ClaudeChatApp
             }
         }
 
+        private List<JObject> SummarizeMessages(List<JObject> messages)
+        {
+            // 메시지 요약 로직 구현
+            // 예: 최근 5개의 메시지만 유지
+            return messages.Skip(Math.Max(0, messages.Count - 5)).ToList();
+        }
+
         private void AddToChatLog(string speaker, string message, Color backgroundColor)
         {
             rtxtChatLog.SelectionStart = rtxtChatLog.TextLength;
@@ -161,10 +168,7 @@ namespace ClaudeChatApp
 
             rtxtChatLog.SelectionColor = Color.White;
             rtxtChatLog.SelectionBackColor = backgroundColor;
-            rtxtChatLog.AppendText($"{speaker}:
-{message}
-
-");
+            rtxtChatLog.AppendText($"{speaker}:\n{message}\n\n");
 
             rtxtChatLog.SelectionStart = rtxtChatLog.TextLength;
             rtxtChatLog.ScrollToCaret();
@@ -185,20 +189,20 @@ namespace ClaudeChatApp
         }
 
         private void txtUserInput_KeyDown(object sender, KeyEventArgs e)
-{
-    if (e.KeyCode == Keys.Enter)
-    {
-        btnSend.PerformClick(); // 전송 버튼 클릭 이벤트 호출
-        txtUserInput.Focus(); // 커서를 텍스트 입력 부분으로 복귀
-        e.Handled = true;
-        e.SuppressKeyPress = true; // 엔터키 입력을 텍스트 박스에 추가하지 않음
-    }
-    else if (e.KeyCode == Keys.Tab)
-    {
-        btnSend.Focus();
-        e.Handled = true;
-    }
-}
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSend.PerformClick(); // 전송 버튼 클릭 이벤트 호출
+                txtUserInput.Focus(); // 커서를 텍스트 입력 부분으로 복귀
+                e.Handled = true;
+                e.SuppressKeyPress = true; // 엔터키 입력을 텍스트 박스에 추가하지 않음
+            }
+            else if (e.KeyCode == Keys.Tab)
+            {
+                btnSend.Focus();
+                e.Handled = true;
+            }
+        }
 
         private void btnReturnToApiKey_Click(object sender, EventArgs e)
         {
