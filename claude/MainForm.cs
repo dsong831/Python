@@ -15,15 +15,15 @@ namespace ClaudeChatApp
         private const string API_URL = "https://api.anthropic.com/v1/messages";
         private const string API_VERSION = "2023-06-01";
         private const string MODEL = "claude-3-sonnet-20240229";
+        private const string EMBEDDED_API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
+        private const string API_KEY_ACTIVATION_CODE = "6452";
 
         private string apiKey;
-        private HttpClient httpClient;
         private List<JObject> messageHistory;
 
         public MainForm()
         {
             InitializeComponent();
-            httpClient = new HttpClient();
             messageHistory = new List<JObject>();
             ApplyDarkTheme();
         }
@@ -67,10 +67,18 @@ namespace ClaudeChatApp
 
         private void btnStartChat_Click(object sender, EventArgs e)
         {
-            apiKey = txtApiKey.Text;
-            if (string.IsNullOrWhiteSpace(apiKey))
+            string inputKey = txtApiKey.Text.Trim();
+            if (inputKey == API_KEY_ACTIVATION_CODE)
             {
-                MessageBox.Show("Please enter an API key.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                apiKey = EMBEDDED_API_KEY;
+            }
+            else if (!string.IsNullOrWhiteSpace(inputKey))
+            {
+                apiKey = inputKey;
+            }
+            else
+            {
+                MessageBox.Show("Please enter an API key or the activation code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -99,54 +107,51 @@ namespace ClaudeChatApp
 
         private async Task<string> CallClaudeApi(string message)
         {
-            var userMessage = new JObject
+            using (var httpClient = new HttpClient())
             {
-                ["role"] = "user",
-                ["content"] = message
-            };
+                httpClient.Timeout = TimeSpan.FromSeconds(300); // Set timeout to 5 minutes
 
-            messageHistory.Add(userMessage);
+                var userMessage = new JObject
+                {
+                    ["role"] = "user",
+                    ["content"] = message
+                };
 
-            // 메시지 요약 로직 추가
-            var summarizedMessages = SummarizeMessages(messageHistory);
+                messageHistory.Add(userMessage);
 
-            var payload = new JObject
-            {
-                ["model"] = MODEL,
-                ["max_tokens"] = 1000,
-                ["messages"] = new JArray(summarizedMessages)
-            };
+                var summarizedMessages = SummarizeMessages(messageHistory);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, API_URL)
-            {
-                Content = new StringContent(payload.ToString(), Encoding.UTF8, "application/json")
-            };
+                var payload = new JObject
+                {
+                    ["model"] = MODEL,
+                    ["max_tokens"] = 1000,
+                    ["messages"] = new JArray(summarizedMessages)
+                };
 
-            request.Headers.Add("x-api-key", apiKey);
-            request.Headers.Add("anthropic-version", API_VERSION);
+                var request = new HttpRequestMessage(HttpMethod.Post, API_URL)
+                {
+                    Content = new StringContent(payload.ToString(), Encoding.UTF8, "application/json")
+                };
 
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+                request.Headers.Add("x-api-key", apiKey);
+                request.Headers.Add("anthropic-version", API_VERSION);
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var responseJson = JObject.Parse(responseBody);
+                var response = await httpClient.SendAsync(request);
+                response.EnsureSuccessStatusCode();
 
-            var botMessage = new JObject
-            {
-                ["role"] = "assistant",
-                ["content"] = responseJson["content"][0]["text"].ToString()
-            };
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var responseJson = JObject.Parse(responseBody);
 
-            messageHistory.Add(botMessage);
+                var botMessage = new JObject
+                {
+                    ["role"] = "assistant",
+                    ["content"] = responseJson["content"][0]["text"].ToString()
+                };
 
-            return botMessage["content"].ToString();
-        }
+                messageHistory.Add(botMessage);
 
-        private List<JObject> SummarizeMessages(List<JObject> messages)
-        {
-            // 메시지 요약 로직 구현
-            // 예: 최근 5개의 메시지만 유지
-            return messages.Skip(Math.Max(0, messages.Count - 5)).ToList();
+                return botMessage["content"].ToString();
+            }
         }
 
         private void AddToChatLog(string speaker, string message, Color backgroundColor)
